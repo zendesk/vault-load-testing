@@ -20,6 +20,7 @@ class AppRoleTaskSet(VaultTaskSet):
 
     def teardown(self):
         self.client.delete(f'/v1/auth/approle/role/{self.ROLE_NAME}')
+        self.disable_auth('approle')
 
     def create_approle(self):
         self.client.post(f'/v1/auth/approle/role/{self.ROLE_NAME}')
@@ -59,9 +60,10 @@ class AppRoleTaskSet(VaultTaskSet):
                                   json={'role_id': self.role_id,
                                         'secret_id': secret[0] + 'XXX'},
                                   catch_response=True) as r:
-                if r.status_code == 400 and 'failed to validate credentials' in r.json()['errors'][0]:
+                if r.status_code == 400 and 'invalid secret id' in r.json()['errors'][0]:
                     r.success()
                 else:
+                    print(r.json()['errors'])
                     r.failure('unexpected response to bad auth token')
         except IndexError:
             pass

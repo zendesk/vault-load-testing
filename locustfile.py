@@ -1,15 +1,15 @@
 from locusts.key_value import KeyValueLocust
-from locusts.transit import TransitLocust
+# from locusts.transit import TransitLocust
 from locusts.pki import PkiLocust
-from locusts.dyn_mongodb import MongoDbLocust
-from locusts.dyn_mysql import MysqlLocust
-from locusts.totp import TotpLocust
+# from locusts.dyn_mongodb import MongoDbLocust
+# from locusts.dyn_mysql import MysqlLocust
+# from locusts.totp import TotpLocust
 from locusts.auth_userpass import UserPassAuthLocust
 from locusts.auth_approle import AppRoleLocust
 
-__static__ = [KeyValueLocust, TransitLocust, PkiLocust]
-__dynamic__ = [MysqlLocust, MongoDbLocust, TotpLocust]
-__auth__ = [UserPassAuthLocust, AppRoleLocust]
+__static__ = [KeyValueLocust, PkiLocust]
+__dynamic__ = []
+__auth__ = [AppRoleLocust, UserPassAuthLocust]
 
 __all__ = __static__ + __dynamic__ + __auth__
 

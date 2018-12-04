@@ -13,6 +13,7 @@ class VaultLocust(HttpLocust):
     def __init__(self):
         super().__init__()
         self.client = VaultSession(base_url=self.host)
+        self.setup()
 
     def setup(self):
         with open('testdata.json', 'r') as f:
@@ -42,6 +43,12 @@ class VaultTaskSet(TaskSet):
         r = self.client.get('/v1/sys/auth')
         if f'{path}/' not in r.json():
             self.client.post(f'/v1/sys/auth/{path}', json={'type': name})
+
+    def disable_auth(self, name: str, path: str=None):
+        path = path or name
+        r = self.client.get('/v1/sys/auth')
+        if f'{path}/' in r.json():
+            self.client.delete(f'/v1/sys/auth/{path}', json={'type': name})
 
     def revoke_lease(self, lease_id: str):
         self.client.put('/v1/sys/leases/revoke',
