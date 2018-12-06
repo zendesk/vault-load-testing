@@ -22,6 +22,9 @@ If you don't have the databases available, remove the database locusts from the
 
 ## Setup
 
+If using OSX, make sure your shell is setup to allow enough open files for the number of connections you want.
+`ulimit -S -n <num_connections + 1000>`
+
  1. Clone this repo.
  2. `pip install -r requirements.txt`.
  3. Run the `prepare.py` script to populate Vault with random secrets.
