@@ -18,6 +18,7 @@ class UserPassAuthTasks(VaultTaskSet):
 
     def teardown(self):
         self.client.delete(f'/v1/auth/userpass/users/{self.USER_NAME}')
+        self.disable_auth('userpass')
 
     @classmethod
     def _set_password(cls):

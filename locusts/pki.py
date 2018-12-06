@@ -19,6 +19,7 @@ class PkiTasks(VaultTaskSet):
 
     def teardown(self):
         self.delete_role()
+        self.delete_pki()
 
     def create_role(self):
         if self.is_in_list(self.ROLE_NAME, '/v1/pki/roles'):
@@ -30,6 +31,9 @@ class PkiTasks(VaultTaskSet):
 
     def delete_role(self):
         self.client.delete(f'/v1/pki/roles/{self.ROLE_NAME}')
+
+    def delete_pki(self):
+        self.client.delete(f'/v1/sys/mounts/pki')
 
     @task
     def generate_cert(self):
